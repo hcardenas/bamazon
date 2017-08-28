@@ -198,8 +198,6 @@ function add_product () {
 
 		});
 
-
-
 	});
 }
 

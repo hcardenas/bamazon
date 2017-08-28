@@ -37,3 +37,23 @@ INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ('nintendo switch','Gaming', 299, 100);
 INSERT INTO products (product_name, department_name, price, stock_quantity) 
 VALUES ('ps4','Gaming', 399, 100);
+
+
+CREATE TABLE departments (
+	deparment_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	department_name VARCHAR(50) NOT NULL,
+	over_head_cost DECIMAL
+);
+
+ALTER TABLE departments AUTO_INCREMENT=1000;
+
+INSERT INTO departments (department_name, over_head_cost) 
+VALUES ('Sports and Outdoors', 2000);
+INSERT INTO departments (department_name, over_head_cost) 
+VALUES ('Clothing', 1000);
+INSERT INTO departments (department_name, over_head_cost) 
+VALUES ('Arts and Crafts', 500);
+INSERT INTO departments (department_name, over_head_cost) 
+VALUES ('Books', 2000);
+INSERT INTO departments (department_name, over_head_cost) 
+VALUES ('Gaming', 3000);
