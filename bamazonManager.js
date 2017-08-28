@@ -182,7 +182,7 @@ function add_product () {
 	];
 
 	inquirer.prompt(questions).then(function(answer) {
-		var quer = `INSERT INTO products  SET ?;`
+		var quer = `INSERT INTO products SET ?;`
 		var querObj = {
 			product_name : answer.input_produc_name,
 			department_name :  answer.input_department_name,
