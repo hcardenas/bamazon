@@ -35,8 +35,9 @@ function main () {
 		}
 	});
 }
-
+// ---------------------------
 // prints to screen the table
+// ---------------------------
 function view_products () {
 	conn.query('SELECT * FROM products;', function(err, res) {
 		if (err) throw err;
@@ -44,8 +45,9 @@ function view_products () {
 		main();
 	});
 }
-
+// ---------------------------
 // prints to screen items with low stock
+// ---------------------------
 function view_low () {
 	var low_inve = 5;
 	conn.query(`SELECT * FROM products WHERE stock_quantity < ${low_inve};`, function(err, res) {
@@ -57,7 +59,8 @@ function view_low () {
 
 
 // ---------------------------
-//  
+//  calculates revenue and reduces 
+// stock quantiy on the table
 // ---------------------------
 function update_inventory () {
 
@@ -88,13 +91,14 @@ function update_inventory () {
 			});
 
 		}); // end of inner conn
-
 		
 	}); // end of inquirer
 
 }
 
-
+// ---------------------------
+// adds new products to the table
+// ---------------------------
 function add_product () {
 	
 
@@ -109,10 +113,8 @@ function add_product () {
 			
 		conn.query(quer, querObj ,function (err, res) {
 			if (err) throw err;
-
 			console.log('/****************\nadded to DB!\n/****************');
 			main();
-
 		});
 
 	});

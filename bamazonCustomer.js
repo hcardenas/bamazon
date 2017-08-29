@@ -44,9 +44,6 @@ function prompt_questions(res) {
 
 			var update_amount = (res[0].stock_quantity - Math.abs(parseInt(answer.amount)));
 			var revenue = (res[0].price * Math.abs(parseInt(answer.amount))) + res[0].product_sales;
-			console.log(res[0].price);
-			console.log(parseInt(answer.amount));
-			console.log (revenue);
 
 			if ( update_amount > 0 ) {
 
