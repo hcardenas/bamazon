@@ -17,6 +17,7 @@ function main () {
 	inquirer.prompt(questions.bamazonSupervisor.main).then(function(answer) {
 		switch(answer.action) {
 			case 'View Product Sales by Department' :
+				view_products();
 				break;
 			case 'Create New Department' :
 				create_department();
@@ -24,6 +25,16 @@ function main () {
 		};
 	});
 }
+
+// function view_products () {
+// 	var quer = 'SELECT deparments.department_id, departments.department_name, departments.over_head_cost, '+
+// 				'products.product_sales FROM departments;';
+// 	console.log(quer);
+// 	conn.query(quer, function(err, res) {
+// 		if (err) throw err;
+// 		console.log(JSON.stringify(res, null, 2));
+// 	});
+// }
 
 
 function create_department() {

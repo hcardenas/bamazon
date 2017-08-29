@@ -120,7 +120,7 @@ exports.bamzonManager = {
 			name : "input_department_name",
 			choices : function (answer) {
 				return new Promise ( (resolve, reject) => {
-					var quer = 'SELECT DISTINCT department_name FROM departments ORDER BY department_name;';
+					var quer = 'SELECT DISTINCT department_name FROM departmentsgit a ORDER BY department_name;';
 					var arr = [];
 					conn.query(quer, function(err, res) {
 						if (err) reject(err);

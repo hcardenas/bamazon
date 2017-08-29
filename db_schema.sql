@@ -40,7 +40,7 @@ VALUES ('ps4','Gaming', 399, 100);
 
 
 CREATE TABLE departments (
-	deparment_id INTEGER AUTO_INCREMENT PRIMARY KEY,
+	department_id INTEGER AUTO_INCREMENT PRIMARY KEY,
 	department_name VARCHAR(50) NOT NULL,
 	over_head_cost DECIMAL
 );
