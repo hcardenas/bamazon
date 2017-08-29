@@ -92,7 +92,6 @@ function update_inventory () {
 		
 	}); // end of inquirer
 
-
 }
 
 
