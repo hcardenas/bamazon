@@ -37,19 +37,24 @@ function prompt_questions(res) {
 
 	inquirer.prompt(questions.bamazonCustomer.main_q).then(function(answer) {
 		
-		var quer = 'SELECT stock_quantity FROM products WHERE ? ;';
+		var quer = 'SELECT stock_quantity, price, product_sales FROM products WHERE ? ;';
 		var querObj = {item_id : answer.ID};
 		conn.query(quer, querObj, function(err, res) {
 			if (err) throw err;
 
 			var update_amount = (res[0].stock_quantity - Math.abs(parseInt(answer.amount)));
+			var revenue = (res[0].price * Math.abs(parseInt(answer.amount))) + res[0].product_sales;
+			console.log(res[0].price);
+			console.log(parseInt(answer.amount));
+			console.log (revenue);
 
 			if ( update_amount > 0 ) {
 
 				var update_query = `UPDATE products SET ? WHERE ?`;
 				var update_obj = [
 					{ 
-						stock_quantity :  update_amount
+						stock_quantity :  update_amount,
+						product_sales : revenue
 					},
 					{
 						item_id : answer.ID

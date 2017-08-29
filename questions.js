@@ -120,7 +120,7 @@ exports.bamzonManager = {
 			name : "input_department_name",
 			choices : function (answer) {
 				return new Promise ( (resolve, reject) => {
-					var quer = 'SELECT DISTINCT department_name FROM bamazon.products ORDER BY department_name;';
+					var quer = 'SELECT DISTINCT department_name FROM departments ORDER BY department_name;';
 					var arr = [];
 					conn.query(quer, function(err, res) {
 						if (err) reject(err);
@@ -158,3 +158,59 @@ exports.bamzonManager = {
 		},
 	]
 };
+
+
+exports.bamazonSupervisor = {
+	main : [
+		{
+			type : 'list',
+			name : 'action',
+			message : 'What do you want to do? ',
+			choices : ['View Product Sales by Department', 'Create New Department']
+		}
+	],
+
+	add : [
+		{
+			type : 'input', 
+			name : 'department_name',
+			message : 'name of new department: ', 
+			validate : function (answer) {
+				var reg = answer.match(/^[ a-zA-Z]+$/);
+				if (reg) return true;
+				else return "departments can only have letters";
+			},
+			filter : function (answer) {
+				return answer
+				.trim()
+		        .toLowerCase()
+		        .split(' ')
+		        .map(function(word) {
+		            return word[0].toUpperCase() + word.substr(1);
+		        })
+		        .join(' ');
+			}
+		},
+		{
+			type : "input" ,
+			name : 'overhead',
+			message : 'what is the department overhead? ',
+			validate: function (answer) {
+				var FLAG = answer.match(/^[+-]?\d+(\.\d+)?$/);
+	      		if (FLAG) return true;
+	      		else return "please input a valid number";
+	      		
+		    }
+		}
+	]
+};
+
+
+
+
+
+
+
+
+
+
