@@ -1,8 +1,10 @@
+// imports modules and questiosn for inquirer
 var inquirer = require('inquirer');
 var mysql = require('mysql');
+var questions = require('./questions.js');
 require('console.table');
 
-
+// creates connection to mysql
 var conn = mysql.createConnection({
 	host: "localhost",
 	port: 3306,
@@ -12,23 +14,11 @@ var conn = mysql.createConnection({
 });
 
 
-
-function main () {
-	var questions = [
-		{
-			type : 'list',
-			name : 'action',
-			message : 'what do you want to do? ',
-			choices : [
-			'View Products for Sale', 
-			'View Low Inventory', 
-			'Add to Inventory' ,
-			'Add New Product'
-			]
-		}
-	];
-
-	inquirer.prompt(questions).then(function(answer) {
+// ---------------------------
+// prompts starting questions for user
+// ---------------------------
+function main () {	
+	inquirer.prompt(questions.bamzonManager.main_q).then(function(answer) {
 		switch (answer.action) {
 			case 'View Products for Sale':
 				view_products();
@@ -46,6 +36,7 @@ function main () {
 	});
 }
 
+// prints to screen the table
 function view_products () {
 	conn.query('SELECT * FROM products;', function(err, res) {
 		if (err) throw err;
@@ -54,6 +45,7 @@ function view_products () {
 	});
 }
 
+// prints to screen items with low stock
 function view_low () {
 	var low_inve = 5;
 	conn.query(`SELECT * FROM products WHERE stock_quantity < ${low_inve};`, function(err, res) {
@@ -63,142 +55,51 @@ function view_low () {
 	})
 }
 
+
+// ---------------------------
+//  
+// ---------------------------
 function update_inventory () {
-	var questions = [
-		{
-			type: 'input',
-			message : 'ID of the product you would like to Update? ',
-			name : 'ID',
-			validate : function (answer) {
-				if (isNaN(answer) === false)
-					return true;
-				else 
-					return "please enter a number.";
-			}
-		},
-		{
 
-			type: 'input',
-			message : ' how many units of the product would you like to Update? ',
-			name : 'amount',
-			validate : function (answer) {
-				if (isNaN(answer) === false)
-					return true;
-				else 
-					return "please enter a number."
-			}
-		}
-	];
+	inquirer.prompt(questions.bamzonManager.update).then(function(answer) {
+		
+		var quer = 'SELECT stock_quantity FROM products WHERE ? ;';
+		var querObj = {item_id : answer.ID};
+		conn.query(quer, querObj, function(err, res) {
+			if (err) throw err;
 
-	conn.query('SELECT * FROM products;', function(err, res) {
-		if (err) throw err;
-		console.table(res);
+			var update_amount = (res[0].stock_quantity + Math.abs(parseInt(answer.amount)));
 
-		inquirer.prompt(questions).then(function(answer) {
-			var FLAG = true;
-			for (var i in res) {
-				if (res[i].item_id == answer.ID) {
-					FLAG = false;
-					break;
+
+			var update_query = `UPDATE products SET ? WHERE ?`;
+			var update_obj = [
+				{ 
+					stock_quantity :  update_amount
+				},
+				{
+					item_id : answer.ID
 				}
-			}
+			];
 
-			if (FLAG) {
-				console.log("sorry item ID doesnt exists!");
+			conn.query(update_query, update_obj, function (err, res) {
+				if (err) throw err;
+				console.log('/****************\nProducts Updated!\n/****************');
 				main();
-			}
-			else {
-				
-				
-				
-				var quer = `SELECT stock_quantity FROM products WHERE item_id = ${answer.ID};`;
-				conn.query(quer, function(err, res) {
-					if (err) throw err;
+			});
 
-					var update_amount = (res[0].stock_quantity + Math.abs(parseInt(answer.amount)));
+		}); // end of inner conn
 
+		
+	}); // end of inquirer
 
-					var update_query = `UPDATE products SET ? WHERE ?`;
-					var update_obj = [
-						{ 
-							stock_quantity :  update_amount
-						},
-						{
-							item_id : answer.ID
-						}
-					];
-
-					conn.query(update_query, update_obj, function (err, res) {
-						if (err) throw err;
-						console.log('Products Updated!');
-						main();
-					});
-
-				});
-
-			}
-		});
-
-	});
 
 }
 
 
 function add_product () {
-	var questions = [
-		{
-			type: 'input',
-			message : "items name: ",
-			name : "input_produc_name"
-		},
-		{
-			type: 'list',
-			message : "items department: ",
-			name : "input_department_name",
-			choices : function (answer) {
-				return new Promise ( (resolve, reject) => {
-					var quer = 'SELECT DISTINCT department_name FROM bamazon.products ORDER BY department_name;';
-					var arr = [];
-					conn.query(quer, function(err, res) {
-						if (err) reject(err);
-						for (var i in res) 
-							arr.push(res[i].department_name);
+	
 
-						
-						resolve(arr);
-
-					});
-
-				});
-
-			}
-			//choices : ['Sports and Outdoors', 'Clothing', 'Arts and Crafts', 'Books', 'Gaming']
-		},
-		{
-			type: 'input',
-			message : "items price: ",
-			name : "input_price",
-			validate : function (answer) {
-				if (isNaN(answer) === false)
-					return true;
-				else 
-					return "please enter a number."
-			}
-		},
-		{
-			type: 'input',
-			message : "items stock quantity: ",
-			name : "input_stock_quantity",
-			validate : function (answer) {
-				if (isNaN(answer) === false)
-					return true;
-				else 
-					return "please enter a number."
-			}
-		},
-	];
-
-	inquirer.prompt(questions).then(function(answer) {
+	inquirer.prompt(questions.bamzonManager.add).then(function(answer) {
 		var quer = `INSERT INTO products SET ?;`
 		var querObj = {
 			product_name : answer.input_produc_name,
@@ -210,7 +111,7 @@ function add_product () {
 		conn.query(quer, querObj ,function (err, res) {
 			if (err) throw err;
 
-			console.log('added to DB');
+			console.log('/****************\nadded to DB!\n/****************');
 			main();
 
 		});
