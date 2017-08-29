@@ -155,7 +155,24 @@ function add_product () {
 			type: 'list',
 			message : "items department: ",
 			name : "input_department_name",
-			choices : ['Sports and Outdoors', 'Clothing', 'Arts and Crafts', 'Books', 'Gaming']
+			choices : function (answer) {
+				return new Promise ( (resolve, reject) => {
+					var quer = 'SELECT DISTINCT department_name FROM bamazon.products ORDER BY department_name;';
+					var arr = [];
+					conn.query(quer, function(err, res) {
+						if (err) reject(err);
+						for (var i in res) 
+							arr.push(res[i].department_name);
+
+						
+						resolve(arr);
+
+					});
+
+				});
+
+			}
+			//choices : ['Sports and Outdoors', 'Clothing', 'Arts and Crafts', 'Books', 'Gaming']
 		},
 		{
 			type: 'input',
