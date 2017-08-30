@@ -26,15 +26,18 @@ function main () {
 	});
 }
 
-// function view_products () {
-// 	var quer = 'SELECT deparments.department_id, departments.department_name, departments.over_head_cost, '+
-// 				'products.product_sales FROM departments;';
-// 	console.log(quer);
-// 	conn.query(quer, function(err, res) {
-// 		if (err) throw err;
-// 		console.log(JSON.stringify(res, null, 2));
-// 	});
-// }
+function view_products () {
+	var quer = 'SELECT  t1.department_id, t1.department_name, t1.over_head_cost, t2.product_sales, ' +
+	'( t2.product_sales - t1.over_head_cost) total_profit  FROM departments t1 ' + 
+	'INNER JOIN (SELECT SUM(products.product_sales) product_sales, products.department_name ' +
+	'FROM products group by department_name ) t2 ON t1.department_name = t2.department_name ;';
+	 
+	conn.query(quer, function(err, res) {
+		if (err) throw err;
+		console.table(res);
+		main();
+	});
+}
 
 
 function create_department() {
