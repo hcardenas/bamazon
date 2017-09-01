@@ -4,7 +4,7 @@
 
 The Goal of Bamazon is to simulate Amazon's back end using MySql. Bamazon has 3 main JavaScript files 
 
-* [bamazonCustomer.js](## bamazonCustomer.js)
+* [bamazonCustomer.js](##bamazonCustomer.js)
 * [bamazonManager.js]()
 * [bamazonSupervisor.js]()
 
@@ -32,5 +32,7 @@ dummy data. Bamazon uses [npm MySQL](https://www.npmjs.com/package/mysql) to run
 A simple print of the current DB table to screen
 
 ### View Low Inventory
+
+A query is run and it shows all inventory with less than 5 items in stock
 
 ### Add to Inventory
