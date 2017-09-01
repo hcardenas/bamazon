@@ -4,20 +4,20 @@
 
 The Goal of Bamazon is to simulate Amazon's back end using MySql. Bamazon has 3 main JavaScript files 
 
-* [bamazonCustomer.js](#bamazonCustomer.js)
-* [bamazonManager.js](#bamazonManager.js)
-* [bamazonSupervisor.js](#bamazonSupervisor.js)
+* [bamazonCustomer.js](#bamazoncustomer)
+* [bamazonManager.js](#bamazonmanager)
+* [bamazonSupervisor.js](#bamazonsupervisor)
 
 Additionally it contains __db_schema.sql__ where the databases and tables are declared and populated with some 
 dummy data. Bamazon uses [npm MySQL](https://www.npmjs.com/package/mysql) to run queries, [inquirer](https://www.npmjs.com/package/inquirer) for user interface/input, [console.table](https://www.npmjs.com/package/console.table) to format and print to screen tables and lastly it uses [questions.js](./questions.js) where questions for inquirer are stored along with some validations
 
 
- ## bamazonCustomer.js
+ ## bamazonCustomer
 
  Start it by running `node bamazonCustomer.js` on the terminal. the user will be prompted for the items ID printed on screen after a valid input the user will be prompted for how many items to buy.
 
 
-## bamazonManager.js
+## bamazonManager
 
  Start it by running `node bamazonCustomer.js` on the terminal. the user will be see 4 options
 
@@ -55,7 +55,7 @@ The user is prompted as follows
 
 Afterwards the DB is updated and the program goes back to the main menu
 
-## bamazonSupervisor.js
+## bamazonSupervisor
 
 Start it by running `node bamazonSupervisor.js` on the terminal. the user will be pompted as follows:
 
